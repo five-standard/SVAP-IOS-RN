@@ -1,22 +1,31 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { First } from "./src/pages/First";
-import { Login } from "./src/pages/Login";
-import { Register } from "./src/pages/Register";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { queryKeys } from "./src/utils/queryKeys";
+import { getToken } from "./src/utils/strToken";
+import { StackNavigation } from "./src/navigators/Stack";
 
-const Stack = createNativeStackNavigator();
+const queryClient = new QueryClient();
 
 export default function App() {
+  const [auth, setAuth] = useState(false);
+
+  useEffect(() => {
+    async function test() {
+      const data = await getToken();
+      if (data.accessToken !== null) {
+        setAuth(true);
+      }
+      queryClient.setQueryData(queryKeys.user, data);
+    }
+    test();
+  }, []);
+
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="First" component={First} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </SafeAreaProvider>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider>
+        <StackNavigation auth={auth} />
+      </SafeAreaProvider>
+    </QueryClientProvider>
   );
 }
