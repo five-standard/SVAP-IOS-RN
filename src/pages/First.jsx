@@ -1,21 +1,11 @@
 import { StyleSheet, View, Image, Text } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Logo from "../assets/Logo_Big.png";
-import { StatusBar } from "expo-status-bar";
+import { Layout } from "../components/Layout";
 import { Button } from "../components/Button";
+import Logo from "../assets/Logo_Big.png";
 
 export const First = ({ navigation }) => {
-  const insets = useSafeAreaInsets();
-
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "#fff",
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-      }}
-    >
+    <Layout authPage>
       <View style={styles.logoContainer}>
         <Image source={Logo} />
       </View>
@@ -31,27 +21,19 @@ export const First = ({ navigation }) => {
           </Text>
         </Text>
       </View>
-      <StatusBar style="auto" />
-    </View>
+    </Layout>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   logoContainer: {
     flex: 5,
     alignItems: "center",
-    backgroundColor: "#fff",
     justifyContent: "center",
   },
   buttonContainer: {
     flex: 1,
     gap: 10,
-    paddingLeft: 30,
-    paddingRight: 30,
     alignItems: "center",
-    backgroundColor: "#fff",
   },
 });

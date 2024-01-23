@@ -1,22 +1,20 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  KeyboardAvoidingView,
-  View,
-  Image,
-} from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { useState } from "react";
 import Logo from "../assets/Logo.png";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Input from "../components/Input";
 import { Button } from "../components/Button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postLogin } from "../api/User";
+import { Layout } from "../components/Layout";
+import { queryKeys } from "../utils/queryKeys";
+import { setToken } from "../utils/strToken";
 
 export const Login = ({ navigation }) => {
-  const insets = useSafeAreaInsets();
-  const [hidden, setHidden] = useState(true);
+  const queryClient = useQueryClient();
+
+  const [err, setErr] = useState(false);
   const [data, setData] = useState({
-    id: "",
+    accountId: "",
     password: "",
   });
 
@@ -26,35 +24,42 @@ export const Login = ({ navigation }) => {
     setData({ ...data, [e.name]: e.text });
   };
 
+  const { mutate } = useMutation({
+    mutationFn: (data) => postLogin(data),
+    onSuccess: (res) => {
+      setToken(res.data);
+      queryClient.setQueryData(queryKeys.user, res.data);
+      navigation.reset({ routes: [{ name: "Tab" }] });
+    },
+    onError: () => {
+      setErr(true);
+    },
+  });
+
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "#fff",
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-      }}
-    >
+    <Layout authPage>
       <View style={styles.logoContainer}>
         <Image source={Logo} />
       </View>
       <View style={styles.loginContainer}>
         <Text style={{ alignSelf: "flex-start" }}>로그인</Text>
-
-        <Input name="id" placeholder="아이디" onChange={handleChange} />
-
+        <Input name="accountId" placeholder="아이디" onChange={handleChange} />
         <Input
           name="password"
           onChange={handleChange}
           placeholder="비밀번호"
           password
         />
-        <Text style={{ color: "red", alignSelf: "flex-start" }}>
-          아이디 또는 비밀번호를 다시 확인하세요.
-        </Text>
+        {err && (
+          <Text style={{ color: "red", alignSelf: "flex-start" }}>
+            아이디 또는 비밀번호를 다시 확인하세요.
+          </Text>
+        )}
       </View>
-      <KeyboardAvoidingView style={styles.buttonContainer}>
-        <Button disabled={disabled}>로그인</Button>
+      <View style={styles.buttonContainer}>
+        <Button disabled={disabled} onPress={() => mutate(data)}>
+          로그인
+        </Button>
         <Text>
           아직 가입하지 않으셨나요?{" "}
           <Text
@@ -64,34 +69,24 @@ export const Login = ({ navigation }) => {
             회원가입
           </Text>
         </Text>
-      </KeyboardAvoidingView>
-      <StatusBar style="auto" />
-    </View>
+      </View>
+    </Layout>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   logoContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
   },
   loginContainer: {
-    backgroundColor: "#fff",
     flex: 4,
-    paddingLeft: 30,
-    paddingRight: 30,
     gap: 15,
   },
   buttonContainer: {
     flex: 1,
     gap: 10,
     alignItems: "center",
-    paddingLeft: 30,
-    paddingRight: 30,
   },
 });
