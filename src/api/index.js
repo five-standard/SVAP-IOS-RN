@@ -10,7 +10,7 @@ instance.interceptors.request.use(
   async (res) => {
     const token = await Asyncstorage.getItem("accessToken");
     if (token) {
-      res.headers.Authorization = token;
+      res.headers.Authorization = "Bearer " + token;
     }
     return res;
   },
