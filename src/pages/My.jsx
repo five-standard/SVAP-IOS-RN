@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { delToken } from "../utils/strToken";
-import { Layout } from "../components/Layout";
+import { Layout } from "../components/common/Layout";
 import { Modal } from "../components/Modal";
 
 export const My = ({ navigation }) => {
@@ -10,7 +10,7 @@ export const My = ({ navigation }) => {
 
   useEffect(() => {
     if (logout) {
-      navigation.getParent().replace("Login");
+      navigation.getParent().getParent().replace("Login");
     }
   }, [logout]);
 
@@ -21,7 +21,7 @@ export const My = ({ navigation }) => {
   };
 
   return (
-    <Layout style={{ gap: 30 }}>
+    <Layout header style={{ gap: 30 }}>
       <Text
         style={{
           fontSize: 30,
@@ -32,13 +32,16 @@ export const My = ({ navigation }) => {
       </Text>
       <View>
         <View style={styles.hr} />
-        <View style={styles.hrContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.push("내가 쓴 청원")}
+          style={styles.hrContainer}
+        >
           <Text>내가 쓴 청원 보기</Text>
-        </View>
+        </TouchableOpacity>
         <View style={styles.hr} />
-        <View style={styles.hrContainer}>
+        <TouchableOpacity onPress={() => {}} style={styles.hrContainer}>
           <Text>내 정보 수정</Text>
-        </View>
+        </TouchableOpacity>
         <View style={styles.hr} />
       </View>
       <View style={styles.textContainer}>

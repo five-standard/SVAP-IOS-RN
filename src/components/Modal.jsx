@@ -1,5 +1,5 @@
 import { Modal as ModalView, View, Text } from "react-native";
-import { Button } from "./Button";
+import { Button } from "./common/Button";
 
 export const Modal = ({ title, subTitle, value, setValue, action }) => {
   return (
