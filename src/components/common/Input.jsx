@@ -3,7 +3,7 @@ import { TextInput, TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function Input(props) {
-  const { name, onChange, password } = props;
+  const { name, onChange, password, search } = props;
   const ref = useRef();
   const [focus, setFocus] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -19,7 +19,10 @@ export default function Input(props) {
         alignItems: "center",
         justifyContent: "space-between",
         gap: 1,
-        borderColor: `${focus ? "#419FFF" : "#BEBEBE"}`,
+        borderColor: `${
+          search ? "transparent" : focus ? "#419FFF" : "#BEBEBE"
+        }`,
+        backgroundColor: `${search && "#7C7C7C"}`,
         borderWidth: 1,
         padding: 15,
         borderRadius: 10,
@@ -45,6 +48,7 @@ export default function Input(props) {
           onPress={handleVisible}
         />
       )}
+      {search && <Ionicons />}
     </TouchableOpacity>
   );
 }

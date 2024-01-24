@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export const Layout = ({ children, authPage, style }) => {
+export const Layout = ({ children, authPage, header, style }) => {
   const insets = useSafeAreaInsets();
 
   return (
@@ -12,7 +12,7 @@ export const Layout = ({ children, authPage, style }) => {
           flex: 1,
           backgroundColor: "#fff",
           padding: !authPage ? 20 : 0,
-          paddingTop: insets.top,
+          paddingTop: !header ? insets.top : 10,
           paddingBottom: insets.bottom,
           paddingLeft: authPage && 30,
           paddingRight: authPage && 30,
