@@ -1,7 +1,6 @@
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { queryKeys } from "./src/utils/queryKeys";
 import { getToken } from "./src/utils/strToken";
 import { StackNavigation } from "./src/navigators/Stack";
 
@@ -16,7 +15,6 @@ export default function App() {
       if (data.accessToken !== null) {
         setAuth(true);
       }
-      queryClient.setQueryData(queryKeys.user, data);
     }
     test();
   }, []);

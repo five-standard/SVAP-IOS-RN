@@ -1,13 +1,12 @@
 import { View, StyleSheet, Image, Text } from "react-native";
 import Logo from "../assets/Logo.png";
 import { useState } from "react";
-import { Button } from "../components/Button";
-import Input from "../components/Input";
+import { Button } from "../components/common/Button";
+import Input from "../components/common/Input";
 import { postSignUp } from "../api/User";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { queryKeys } from "../utils/queryKeys";
+import { useMutation } from "@tanstack/react-query";
 import { setToken } from "../utils/strToken";
-import { Layout } from "../components/Layout";
+import { Layout } from "../components/common/Layout";
 
 const reg = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
 
@@ -21,7 +20,6 @@ export const Register = ({ navigation }) => {
   });
   const [err, setErr] = useState(false);
 
-  const queryClient = useQueryClient();
   const disabled = {
     1: data.accountId.length > 8 || data.accountId === "",
     2: !data.password.match(reg) || data.password !== data.passCheck,
@@ -40,7 +38,6 @@ export const Register = ({ navigation }) => {
     mutationFn: (data) => postSignUp(data),
     onSuccess: (res) => {
       setToken(res.data);
-      queryClient.setQueryData(queryKeys.user, res.data);
       navigation.reset({ routes: [{ name: "Tab" }] });
     },
     onError: () => {

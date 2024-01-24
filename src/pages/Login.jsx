@@ -1,17 +1,14 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import { useState } from "react";
 import Logo from "../assets/Logo.png";
-import Input from "../components/Input";
-import { Button } from "../components/Button";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Input from "../components/common/Input";
+import { Button } from "../components/common/Button";
+import { useMutation } from "@tanstack/react-query";
 import { postLogin } from "../api/User";
-import { Layout } from "../components/Layout";
-import { queryKeys } from "../utils/queryKeys";
+import { Layout } from "../components/common/Layout";
 import { setToken } from "../utils/strToken";
 
 export const Login = ({ navigation }) => {
-  const queryClient = useQueryClient();
-
   const [err, setErr] = useState(false);
   const [data, setData] = useState({
     accountId: "",
@@ -28,7 +25,6 @@ export const Login = ({ navigation }) => {
     mutationFn: (data) => postLogin(data),
     onSuccess: (res) => {
       setToken(res.data);
-      queryClient.setQueryData(queryKeys.user, res.data);
       navigation.reset({ routes: [{ name: "Tab" }] });
     },
     onError: () => {
