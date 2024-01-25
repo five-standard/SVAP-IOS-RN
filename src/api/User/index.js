@@ -10,6 +10,11 @@ export const postLogin = async (Data) => {
   return await instance.post("/user/login", Data);
 };
 
+export const deleteAccount = async () => {
+  // 회원탈퇴
+  return await instance.delete("/user");
+};
+
 export const getMyPost = async () => {
   // 내가 쓴 청원 보기
   return await instance.get("/user");
