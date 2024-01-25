@@ -7,7 +7,7 @@ export const Button = (props) => {
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
-        padding: 15,
+        height: 50,
         borderRadius: 10,
         borderWidth: 1,
         borderColor: `${props.white ? "#419FFF" : "#fff"}`,
