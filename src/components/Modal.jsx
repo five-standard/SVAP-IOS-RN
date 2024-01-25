@@ -2,6 +2,10 @@ import { Modal as ModalView, View, Text } from "react-native";
 import { Button } from "./common/Button";
 
 export const Modal = ({ title, subTitle, value, setValue, action }) => {
+  const handleCheck = () => {
+    setValue(false);
+    action();
+  };
   return (
     <ModalView
       transparent={true}
@@ -41,7 +45,7 @@ export const Modal = ({ title, subTitle, value, setValue, action }) => {
               </Button>
             </View>
             <View style={{ width: "50%" }}>
-              <Button onPress={action}>확인</Button>
+              <Button onPress={handleCheck}>확인</Button>
             </View>
           </View>
         </View>
