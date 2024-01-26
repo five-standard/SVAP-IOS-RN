@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { TextInput, TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-export default function Input(props) {
+export const Input = (props) => {
   const { name, onChange, value, password, search, onSearch } = props;
   const ref = useRef();
   const [focus, setFocus] = useState(false);
@@ -48,4 +48,4 @@ export default function Input(props) {
       {search && <Ionicons name="search" size={20} onPress={onSearch} />}
     </TouchableOpacity>
   );
-}
+};
