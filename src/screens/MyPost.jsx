@@ -14,8 +14,6 @@ export const MyPost = ({ navigation }) => {
     },
   });
 
-  console.log(data);
-
   return (
     <Layout header>
       {isLoading && <Text>불러오고 있습니다...</Text>}

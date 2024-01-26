@@ -2,7 +2,7 @@ import { View, StyleSheet, Image, Text } from "react-native";
 import Logo from "../assets/Logo.png";
 import { useState } from "react";
 import { Button } from "../components/common/Button";
-import Input from "../components/common/Input";
+import { Input } from "../components/common/Input";
 import { postSignUp } from "../api/User";
 import { useMutation } from "@tanstack/react-query";
 import { setToken } from "../utils/strToken";
