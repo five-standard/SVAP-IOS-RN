@@ -25,6 +25,7 @@ export const TabNavigator = () => {
     <Tab.Navigator
       initialRouteName={"홈"}
       screenOptions={{
+        unmountOnBlur: true,
         headerShadowVisible: false,
         headerTitleAlign: "center",
         headerTitleStyle: {
@@ -50,7 +51,6 @@ export const TabNavigator = () => {
         name="청원 보기"
         component={WatchStackNavigation}
         options={option(false, "people-outline")}
-        initialParams={{ searchQuery: "" }}
       />
       <Tab.Screen
         name="My"
