@@ -36,7 +36,7 @@ export const getPopularPetition = async () => {
   return await instance.get("/petition/popular");
 };
 
-export const getPosts = async (type, accessType) => {
+export const getPosts = async (data) => {
   // 청원 조회
-  return await instance.get(`/petition/sort/${type}/${accessType}`);
+  return await instance.get(`/petition/sort/${data.type}/${data.accessType}`);
 };
