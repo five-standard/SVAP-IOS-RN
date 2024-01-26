@@ -3,7 +3,7 @@ import { Layout } from "../components/common/Layout";
 import Slide1 from "../assets/slide/slide1.png";
 import Slide2 from "../assets/slide/slide2.png";
 import { SliderBox } from "react-native-image-slider-box";
-import Input from "../components/common/Input";
+import { Input } from "../components/common/Input";
 import { useQuery } from "@tanstack/react-query";
 import { getPopularPetition } from "../api/Petition";
 import { queryKeys } from "../utils/queryKeys";
@@ -32,7 +32,8 @@ export const Home = ({ navigation }) => {
             ImageComponentStyle={{
               width: "90%",
               height: "100%",
-              borderRadius: 10,
+              backgroundColor: "#F4F4F4",
+              borderRadius: 15,
             }}
             paginationBoxStyle={{
               gap: -10,
@@ -48,12 +49,10 @@ export const Home = ({ navigation }) => {
           value={search}
           onChange={({ text }) => setSearch(text)}
           onSearch={() =>
-            navigation
-              .getParent()
-              .jumpTo("청원 보기", {
-                screen: "청원 보기",
-                params: { searchQuery: search },
-              })
+            navigation.getParent().jumpTo("청원 보기", {
+              screen: "청원 보기",
+              params: { searchQuery: search },
+            })
           }
         />
         {isSuccess && (
@@ -87,7 +86,7 @@ const styles = StyleSheet.create({
     gap: 20,
   },
   imageContainer: {
-    height: 150,
+    height: 145,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
