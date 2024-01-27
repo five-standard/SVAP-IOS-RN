@@ -3,4 +3,5 @@ export const queryKeys = {
   detail: "detail",
   popular: ["popular"],
   user: ["user"],
+  watch: "watch",
 };
