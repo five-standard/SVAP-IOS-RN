@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Layout } from "../components/common/Layout";
 import { queryKeys } from "../utils/queryKeys";
 import { getMyPost } from "../api/User";
-import { Text, StyleSheet, FlatList } from "react-native";
+import { Text, FlatList } from "react-native";
 import { Post } from "../components/Post";
 
 export const MyPost = ({ navigation }) => {
@@ -24,15 +24,9 @@ export const MyPost = ({ navigation }) => {
             <Post data={item} navigation={navigation} key={item.id} />
           )}
           keyExtractor={(data) => data.id}
-          contentContainerStyle={styles.postContainer}
+          contentContainerStyle={{ gap: 20 }}
         />
       )}
     </Layout>
   );
 };
-
-const styles = StyleSheet.create({
-  postContainer: {
-    gap: 20,
-  },
-});
