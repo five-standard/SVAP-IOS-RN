@@ -1,13 +1,13 @@
-import { View, StyleSheet, Image, Text, ScrollView } from "react-native";
-import { Layout } from "../components/common/Layout";
-import Slide1 from "../assets/slide/slide1.png";
-import Slide2 from "../assets/slide/slide2.png";
+import { View, StyleSheet, Text, ScrollView } from "react-native";
 import { SliderBox } from "react-native-image-slider-box";
-import { Input } from "../components/common/Input";
+import { Layout } from "../components/common/Layout";
 import { useQuery } from "@tanstack/react-query";
-import { getPopularPetition } from "../api/Petition";
-import { queryKeys } from "../utils/queryKeys";
 import { useState } from "react";
+import { getPopularPetition } from "../api/Petition";
+import { Input } from "../components/common/Input";
+import Slide2 from "../assets/slide/slide2.png";
+import Slide1 from "../assets/slide/slide1.png";
+import { queryKeys } from "../utils/queryKeys";
 
 export const Home = ({ navigation }) => {
   const images = [Slide1, Slide2];
@@ -22,7 +22,7 @@ export const Home = ({ navigation }) => {
   });
 
   return (
-    <Layout header>
+    <Layout>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.imageContainer}>
           <SliderBox
@@ -50,7 +50,7 @@ export const Home = ({ navigation }) => {
           onChange={({ text }) => setSearch(text)}
           onSearch={() =>
             navigation.getParent().jumpTo("청원 보기", {
-              screen: "청원 보기",
+              screen: "Watch",
               params: { searchQuery: search },
             })
           }
@@ -64,16 +64,14 @@ export const Home = ({ navigation }) => {
               }}
             >
               <Text>인기 청원</Text>
-              <Text
-                onPress={() => navigation.push("상세보기", { id: data.id })}
-              >
+              <Text onPress={() => navigation.push("Detail", { id: data?.id })}>
                 더보기
               </Text>
             </View>
             <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-              {data.title}
+              {data?.title}
             </Text>
-            <Text>{data.content}</Text>
+            <Text>{data?.content}</Text>
           </View>
         )}
       </ScrollView>
