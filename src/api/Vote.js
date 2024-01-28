@@ -1,4 +1,4 @@
-import { instance } from "..";
+import { instance } from ".";
 
 export const postVote = async (id) => {
   // 청원 투표

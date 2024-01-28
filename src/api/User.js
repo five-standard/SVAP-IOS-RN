@@ -1,4 +1,4 @@
-import { instance } from "..";
+import { instance } from ".";
 
 export const postSignUp = async (Data) => {
   // 회원가입

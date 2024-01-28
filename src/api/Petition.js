@@ -1,4 +1,4 @@
-import { instance } from "..";
+import { instance } from ".";
 
 export const postPost = async (data, files) => {
   // 청원 글 작성

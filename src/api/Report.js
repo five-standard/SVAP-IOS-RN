@@ -1,4 +1,4 @@
-import { instance } from "..";
+import { instance } from ".";
 
 export const postReport = async (id) => {
   // 청원 신고
