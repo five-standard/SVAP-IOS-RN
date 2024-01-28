@@ -1,12 +1,16 @@
+import { stackOption, Stack } from "../utils/stackTypes";
 import { Detail } from "../screens/Detail";
 import { Home } from "../screens/Home";
-import { stackOption, Stack } from "./stack";
 
-export const HomeStackNavigation = () => {
+export const HomeStack = () => {
   return (
-    <Stack.Navigator initialRouteName="홈" screenOptions={stackOption}>
-      <Stack.Screen name="홈" component={Home} />
-      <Stack.Screen name="상세보기" component={Detail} />
+    <Stack.Navigator initialRouteName="Home" screenOptions={stackOption}>
+      <Stack.Screen name="Home" component={Home} options={{ title: "홈" }} />
+      <Stack.Screen
+        name="Detail"
+        component={Detail}
+        options={{ title: "상세 보기" }}
+      />
     </Stack.Navigator>
   );
 };

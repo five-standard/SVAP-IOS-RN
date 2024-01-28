@@ -1,17 +1,24 @@
-import { My } from "../screens/My";
-import { MyPost } from "../screens/MyPost";
+import { stackOption, Stack } from "../utils/stackTypes";
+import { My, MyPost } from "../screens/My";
 import { Detail } from "../screens/Detail";
-import { stackOption, Stack } from "./stack";
 
-export const MyStackNavigation = () => {
+export const MyStack = () => {
   return (
-    <Stack.Navigator initialRouteName="마이 페이지" screenOptions={stackOption}>
-      <Stack.Screen name="마이 페이지" component={My} />
-      <Stack.Screen name="내가 쓴 청원" component={MyPost} />
+    <Stack.Navigator initialRouteName="My" screenOptions={stackOption}>
       <Stack.Screen
-        name="상세보기"
+        name="My"
+        component={My}
+        options={{ title: "마이페이지" }}
+      />
+      <Stack.Screen
+        name="MyPost"
+        component={MyPost}
+        options={{ title: "내 청원" }}
+      />
+      <Stack.Screen
+        name="Detail"
         component={Detail}
-        initialParams={{ id: 0 }}
+        options={{ title: "상세 보기" }}
       />
     </Stack.Navigator>
   );

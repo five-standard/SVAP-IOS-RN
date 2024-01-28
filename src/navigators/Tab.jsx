@@ -1,9 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import { MyStackNavigation } from "./MyStack";
-import { HomeStackNavigation } from "./HomeStack";
-import { Home } from "../screens/Home";
-import { WatchStackNavigation } from "./WatchStack";
+import { WatchStack, HomeStack, MyStack } from "./Stacks";
+import { Write } from "../screens/Write";
 
 const Tab = createBottomTabNavigator();
 
@@ -39,22 +37,22 @@ export const TabNavigator = () => {
     >
       <Tab.Screen
         name="홈"
-        component={HomeStackNavigation}
+        component={HomeStack}
         options={option(false, "home-outline")}
       />
       <Tab.Screen
         name="청원 작성"
-        component={Home}
-        options={option(false, "create-outline")}
+        component={Write}
+        options={option(true, "create-outline")}
       />
       <Tab.Screen
         name="청원 보기"
-        component={WatchStackNavigation}
+        component={WatchStack}
         options={option(false, "people-outline")}
       />
       <Tab.Screen
-        name="My"
-        component={MyStackNavigation}
+        name="마이페이지"
+        component={MyStack}
         options={option(false, "person-outline")}
       />
     </Tab.Navigator>

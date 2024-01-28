@@ -1,13 +1,9 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { First } from "../screens/First";
-import { Login } from "../screens/Login";
-import { Register } from "../screens/Register";
-import { TabNavigator } from "./Tab";
 import { NavigationContainer } from "@react-navigation/native";
+import { First, Login, Register } from "../screens/Auth";
+import { Stack } from "../utils/stackTypes";
+import { TabNavigator } from "./Tab";
 
-const Stack = createNativeStackNavigator();
-
-export const StackNavigation = ({ auth }) => {
+export const StackNav = ({ auth }) => {
   return (
     <NavigationContainer>
       <Stack.Navigator
