@@ -1,12 +1,13 @@
 import { View, StyleSheet, Image, Text } from "react-native";
-import Logo from "../assets/Logo.png";
 import { useState } from "react";
-import { Button } from "../components/common/Button";
-import { Input } from "../components/common/Input";
-import { postSignUp } from "../api/User";
+import { Layout } from "../../components/common/Layout";
+import { Button } from "../../components/common/Button";
+import { Input } from "../../components/common/Input";
+import { getInfo, postSignUp } from "../../api/User";
 import { useMutation } from "@tanstack/react-query";
-import { setToken } from "../utils/strToken";
-import { Layout } from "../components/common/Layout";
+import { setToken } from "../../utils/strToken";
+import { setUser } from "../../utils/strUser";
+import Logo from "../../assets/Logo.png";
 
 const reg = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
 
@@ -39,6 +40,9 @@ export const Register = ({ navigation }) => {
     onSuccess: (res) => {
       setToken(res.data);
       navigation.reset({ routes: [{ name: "Tab" }] });
+      getInfo()
+        .then((res) => setUser(res.data))
+        .catch(() => {});
     },
     onError: () => {
       setErr(true);

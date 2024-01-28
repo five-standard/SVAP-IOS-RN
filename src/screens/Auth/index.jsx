@@ -1,7 +1,9 @@
 import { StyleSheet, View, Image, Text } from "react-native";
-import { Layout } from "../components/common/Layout";
-import { Button } from "../components/common/Button";
-import Logo from "../assets/Logo_Big.png";
+import { Layout } from "../../components/common/Layout";
+import { Button } from "../../components/common/Button";
+import Logo from "../../assets/Logo_Big.png";
+export * from "./Login";
+export * from "./Register";
 
 export const First = ({ navigation }) => {
   return (

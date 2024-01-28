@@ -1,14 +1,13 @@
 import { StyleSheet, Text, View, Image } from "react-native";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import Logo from "../assets/Logo.png";
-import { Input } from "../components/common/Input";
-import { Button } from "../components/common/Button";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getInfo, postLogin } from "../api/User";
-import { Layout } from "../components/common/Layout";
-import { setToken } from "../utils/strToken";
-import { useQueryClient } from "@tanstack/react-query";
-import { queryKeys } from "../utils/queryKeys";
+import { Layout } from "../../components/common/Layout";
+import { Button } from "../../components/common/Button";
+import { Input } from "../../components/common/Input";
+import { getInfo, postLogin } from "../../api/User";
+import { setToken } from "../../utils/strToken";
+import { setUser } from "../../utils/strUser";
+import Logo from "../../assets/Logo.png";
 
 export const Login = ({ navigation }) => {
   const [err, setErr] = useState(false);
@@ -17,7 +16,6 @@ export const Login = ({ navigation }) => {
     password: "",
   });
 
-  const queryClient = useQueryClient();
   const disabled = data.id === "" || data.password === "";
 
   const handleChange = (e) => {
@@ -30,12 +28,7 @@ export const Login = ({ navigation }) => {
       setToken(res.data);
       navigation.reset({ routes: [{ name: "Tab" }] });
       getInfo()
-        .then((res) => {
-          queryClient.setQueryData(queryKeys.user, {
-            userName: res.data.userName,
-            accountId: res.data.accountId,
-          });
-        })
+        .then((info) => setUser(info.data))
         .catch(() => {});
     },
     onError: () => {
