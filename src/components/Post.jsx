@@ -8,7 +8,8 @@ export const Post = ({ data, navigation }) => {
         width: "100%",
         gap: 4,
       }}
-      onPress={() => navigation.push("상세보기", { id: data.id })}
+      onPress={() => navigation.push("Detail", { id: data.id })}
+      activeOpacity={1}
     >
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text style={{ fontWeight: "bold", fontSize: 15 }}>{data.title}</Text>
