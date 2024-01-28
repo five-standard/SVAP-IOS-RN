@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
 import { TextInput, TouchableOpacity } from "react-native";
+import { useRef, useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 export const Input = (props) => {
