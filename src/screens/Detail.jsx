@@ -2,23 +2,33 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { SliderBox } from "react-native-image-slider-box";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Layout } from "../components/common/Layout";
 import { Button } from "../components/common/Button";
 import { deletePost, getPostDetail } from "../api/Petition";
 import { queryKeys } from "../utils/queryKeys";
 import { Modal } from "../components/Modal";
+import { Popup } from "../components/Popup";
+import { getUser } from "../utils/strUser";
 import { postReport } from "../api/Report";
 import { Loc } from "../utils/dataTypes";
 import { postVote } from "../api/Vote";
-import { Popup } from "../components/Popup";
 
 export const Detail = ({ route, navigation }) => {
   const [type, setType] = useState(undefined);
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState("");
 
   const { id } = route.params;
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    async function test() {
+      const { accountId } = await getUser();
+      setUser(accountId);
+    }
+    test();
+  });
 
   const { data, isLoading, isSuccess } = useQuery({
     queryKey: [queryKeys.detail, id],
@@ -63,7 +73,9 @@ export const Detail = ({ route, navigation }) => {
               <Text style={{ color: "#2B94FF", fontSize: 15 }}>
                 #{Loc[data.types]}_{data.location}
               </Text>
-              <Ionicons name="menu" onPress={() => setOpen(true)} size={30} />
+              {user === data.accountId && (
+                <Ionicons name="menu" onPress={() => setOpen(true)} size={30} />
+              )}
             </View>
             <View style={styles.betweenContainer}>
               <Text style={{ fontSize: 18 }}>{data.title}</Text>
