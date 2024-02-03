@@ -2,7 +2,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import { StackNav } from "./src/navigators/Stack";
-import { delToken, getToken } from "./src/utils/strToken";
+import { getToken } from "./src/utils/strToken";
 
 const queryClient = new QueryClient();
 

@@ -1,9 +1,5 @@
-import { Modal as ModalView, View } from "react-native";
+import { Modal as ModalView, TouchableOpacity, View } from "react-native";
 export const Popup = ({ children, value, setValue }) => {
-  const handleCheck = () => {
-    setValue(false);
-  };
-
   return (
     <ModalView
       transparent={true}
@@ -36,16 +32,17 @@ export const Popup = ({ children, value, setValue }) => {
             shadowColor: "#000",
           }}
         >
-          <View style={{ alignItems: "center" }}>
+          <TouchableOpacity onPress={() => setValue(false)}>
             <View
               style={{
+                alignSelf: "center",
                 borderRadius: "100%",
                 width: "18%",
                 height: 5,
                 backgroundColor: "#BEBEBE",
               }}
             />
-          </View>
+          </TouchableOpacity>
           {children}
         </View>
       </View>
