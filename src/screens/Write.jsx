@@ -8,14 +8,16 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InputLayout } from "../components/InputLayout";
 import { Layout } from "../components/common/Layout";
 import { Button } from "../components/common/Button";
 import { Input } from "../components/common/Input";
-import { postImage } from "../api/Petition";
+import { patchPost, postImage, postPost } from "../api/Petition";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "../utils/queryKeys";
 
-export const Write = () => {
+export const Write = ({ navigation, route }) => {
   const [data, setData] = useState({
     title: "",
     content: "",
@@ -25,7 +27,7 @@ export const Write = () => {
   });
   const [drop, setDrop] = useState(false);
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
-  const formData = new FormData();
+  const queryClient = useQueryClient();
   const type = {
     SCHOOL: "학교 청원",
     DORMITORY: "기숙사 청원",
@@ -36,6 +38,13 @@ export const Write = () => {
     data.types !== "" &&
     data.location.length >= 3 &&
     data.location.length < 10;
+  const editData = route.params?.data;
+
+  useEffect(() => {
+    if (editData) {
+      setData(editData);
+    }
+  }, []);
 
   const handleImage = async () => {
     if (!status?.granted) {
@@ -53,7 +62,12 @@ export const Write = () => {
     if (result.canceled) {
       return null;
     } else {
-      setData({ ...data, imgUrl: data.imgUrl.concat([result.assets[0].uri]) });
+      const { uri, fileName } = result.assets[0];
+      const type = "image/" + fileName.split(".").pop();
+      setData({
+        ...data,
+        imgUrl: data.imgUrl.concat([{ uri: uri, name: fileName, type: type }]),
+      });
     }
   };
 
@@ -67,12 +81,26 @@ export const Write = () => {
     setDrop(false);
   };
 
-  const test = () => {
-    postImage(formData)
-      .then((res) => {
-        console.log(res.response);
-      })
-      .catch((err) => console.log(err.response));
+  const handleSubmit = () => {
+    const formData = new FormData();
+    data.imgUrl.forEach((i) => {
+      formData.append("image", i);
+    });
+
+    if (!editData) {
+      postImage(formData).then((res) => {
+        postPost(data, res.data.imageUrl).then(() => {
+          navigation.jumpTo("청원 보기", {
+            screen: "Watch",
+          });
+        });
+      });
+    } else {
+      patchPost(data, data.id).then(async () => {
+        await queryClient.invalidateQueries([queryKeys.detail, data.id]);
+        navigation.goBack();
+      });
+    }
   };
 
   return (
@@ -142,19 +170,24 @@ export const Write = () => {
       <InputLayout text="사진">
         <View>
           <ScrollView horizontal contentContainerStyle={{ gap: 5 }}>
-            <TouchableOpacity
-              style={styles.imageContainer}
-              activeOpacity={1}
-              onPress={handleImage}
-            >
-              <Ionicons name="camera" size={20} />
-            </TouchableOpacity>
+            {!editData ? (
+              <TouchableOpacity
+                style={styles.imageContainer}
+                activeOpacity={1}
+                onPress={handleImage}
+              >
+                <Ionicons name="camera" size={20} />
+              </TouchableOpacity>
+            ) : (
+              <></>
+            )}
+
             {data.imgUrl.length > 0 &&
               data.imgUrl.map((i, j) => {
                 return (
                   <Image
                     key={j}
-                    source={{ uri: i }}
+                    source={{ uri: editData ? i : i.uri }}
                     style={styles.imageElement}
                   />
                 );
@@ -162,12 +195,12 @@ export const Write = () => {
           </ScrollView>
         </View>
       </InputLayout>
-      <Button onPress={test}>업로드</Button>
+      <Button disabled={!disabled} onPress={handleSubmit}>
+        {editData ? "수정 완료" : "업로드"}
+      </Button>
     </Layout>
   );
 };
-
-/*disabled={!disabled}*/
 
 const styles = StyleSheet.create({
   inputContainer: {
