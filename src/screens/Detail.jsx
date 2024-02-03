@@ -156,7 +156,17 @@ export const Detail = ({ route, navigation }) => {
           <></>
         )}
         <Popup value={open} setValue={setOpen}>
-          <Text>수정</Text>
+          <Text
+            onPress={() => {
+              setOpen(false);
+              navigation.push("Edit", {
+                screen: "Edit",
+                data: data,
+              });
+            }}
+          >
+            수정
+          </Text>
           <Text
             onPress={() => {
               setOpen(false);
